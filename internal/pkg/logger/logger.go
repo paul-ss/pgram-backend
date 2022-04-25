@@ -42,7 +42,7 @@ func newLogger() *Logger {
 		return &Logger{}
 	}
 
-	file, err := os.Open(conf.Filepath)
+	file, err := os.OpenFile(conf.Filepath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		panic("can't open config file: " + err.Error())
 	}

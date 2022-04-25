@@ -14,7 +14,10 @@ type Config struct {
 }
 
 type Server struct {
-	Address string `mapstructure:"address"`
+	Address   string `mapstructure:"address"`
+	StdoutLog bool   `mapstructure:"stdout_log"`
+	LogPath   string `mapstructure:"log_path"`
+	Mode      string `mapstructure:"mode"`
 }
 
 type Logger struct {

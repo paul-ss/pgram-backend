@@ -1,9 +1,13 @@
 server:
   address: "sdfj;"
+  log_path: ""
+  mode: "debug"
+  stdout_log: Yes
+
 
 logger:
   level: "debug"
-  json_form: Yes
+  json_form: No
   filepath: "path/to/log"
   use_stdout: Yes
 
@@ -13,3 +17,5 @@ postgres:
   port: "23123"
   database: "test"
   max_conns: 10
+
+
