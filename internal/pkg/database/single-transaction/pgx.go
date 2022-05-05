@@ -149,6 +149,10 @@ func (c *conn) Begin(ctx context.Context) (pgx.Tx, error) {
 	return &tx{id, c}, nil
 }
 
+func (c *conn) BeginFunc(ctx context.Context, f func(pgx.Tx) error) (err error) {
+	return ErrNotImplemented
+}
+
 //func (c *conn) Prepare(query string) (driver.Stmt, error) {
 //	c.Lock()
 //	defer c.Unlock()
