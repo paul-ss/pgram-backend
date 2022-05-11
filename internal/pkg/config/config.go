@@ -11,6 +11,11 @@ type Config struct {
 	Server   Server   `mapstructure:"server"`
 	Logger   Logger   `mapstructure:"logger"`
 	Postgres Postgres `mapstructure:"postgres"`
+	Static   Static   `mapstructure:"static"`
+}
+
+type Static struct {
+	StaticDir string `mapstructure:"static_dir"`
 }
 
 type Server struct {

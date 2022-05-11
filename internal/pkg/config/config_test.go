@@ -27,7 +27,6 @@ func TestCheckUnsetFields(t *testing.T) {
 	fmt.Println(*c)
 
 	checkUnsetFields(c)
-	fmt.Println(*conf)
 }
 
 func TestGetAllTags(t *testing.T) {

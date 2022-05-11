@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-const defaultDnsString = ""
+const defaultDnsString = "user=tst password=123 host=localhost port=5430 database=tst sslmode=disable"
 
 var ErrNotImplemented = errors.New("not implemented")
 

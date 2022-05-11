@@ -1,6 +1,6 @@
 server:
-  address: "sdfj;"
-  log_path: ""
+  address: "localhost:8080"
+  log_path: "log/gin.log"
   mode: "debug"
   stdout_log: Yes
 
@@ -8,14 +8,17 @@ server:
 logger:
   level: "debug"
   json_form: No
-  filepath: "path/to/log"
+  filepath: "log/app.log"
   use_stdout: Yes
 
 postgres:
-  user: "api"
-  password: "pass"
-  port: "23123"
-  database: "test"
+  user: "api_user"
+  password: "12345"
+  port: "5432"
+  database: "api_db"
   max_conns: 10
+
+static:
+  static_dir: "static"
 
 

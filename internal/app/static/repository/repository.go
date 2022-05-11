@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/google/uuid"
+	"github.com/paul-ss/pgram-backend/internal/pkg/config"
 	"io"
 	"mime/multipart"
 	"os"
@@ -10,6 +11,12 @@ import (
 )
 
 const subdirsNuber = 3
+
+func NewRepository() *Repository {
+	return &Repository{
+		staticDir: config.C().Static.StaticDir,
+	}
+}
 
 type Repository struct {
 	staticDir string

@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"github.com/gin-gonic/gin"
+	postDelivery "github.com/paul-ss/pgram-backend/internal/app/post/delivery"
 	"github.com/paul-ss/pgram-backend/internal/pkg/config"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
@@ -55,6 +56,8 @@ func addRoutes(r *gin.Engine) {
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
+
+	postDelivery.Register(r)
 }
 
 func (s *Server) Run() {
@@ -63,6 +66,7 @@ func (s *Server) Run() {
 			log.Printf("listen: %s\n", err)
 		}
 	}()
+	log.Info("Server running at ", s.srv.Addr)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
