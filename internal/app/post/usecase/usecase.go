@@ -6,6 +6,7 @@ import (
 	"github.com/paul-ss/pgram-backend/internal/app/domain"
 	postRepository "github.com/paul-ss/pgram-backend/internal/app/post/repository"
 	staticRepository "github.com/paul-ss/pgram-backend/internal/app/static/repository"
+	"github.com/paul-ss/pgram-backend/internal/pkg/pointers"
 	"mime/multipart"
 )
 
@@ -21,7 +22,7 @@ type Usecase struct {
 	statR domain.StaticRepository
 }
 
-func (uc *Usecase) Store(ctx context.Context, req *domain.PostStoreUC, fh *multipart.FileHeader) (*domain.Post, error) {
+func (uc *Usecase) Create(ctx context.Context, req *domain.PostCreate, fh *multipart.FileHeader) (*domain.Post, error) {
 	filePath, err := uc.statR.StoreFile(fh)
 	if err != nil {
 		return nil, err
@@ -29,13 +30,13 @@ func (uc *Usecase) Store(ctx context.Context, req *domain.PostStoreUC, fh *multi
 
 	post := domain.PostStoreR{
 		UserId:  req.UserId,
-		GroupId: req.GroupId,
-		Content: req.Content,
+		GroupId: pointers.New(*req.GroupId),
+		Content: pointers.New(*req.Content),
 		Created: req.Created,
-		Image:   filePath,
+		Image:   pointers.New(filePath),
 	}
 
-	res, err := uc.postR.Store(ctx, &post)
+	res, err := uc.postR.Create(ctx, &post)
 	if err != nil {
 		if err = uc.statR.DeleteFile(filePath); err != nil {
 			return nil, err
@@ -46,8 +47,8 @@ func (uc *Usecase) Store(ctx context.Context, req *domain.PostStoreUC, fh *multi
 	return res, nil
 }
 
-func (uc *Usecase) Get(ctx context.Context, req *domain.PostGetUC) ([]domain.Post, error) {
-	reqUC := &domain.PostGetR{
+func (uc *Usecase) GetFeed(ctx context.Context, req *domain.FeedGet) ([]domain.Post, error) {
+	reqUC := &domain.FeedGetRepo{
 		Since: req.Since,
 		Limit: req.Limit,
 		Desc:  req.Desc,
@@ -55,7 +56,7 @@ func (uc *Usecase) Get(ctx context.Context, req *domain.PostGetUC) ([]domain.Pos
 
 	switch req.Sort {
 	case "created":
-		return uc.postR.GetSortCreated(ctx, reqUC)
+		return uc.postR.GetFeedCreated(ctx, reqUC)
 	default:
 		return nil, errors.New("")
 	}

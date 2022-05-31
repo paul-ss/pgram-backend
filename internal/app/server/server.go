@@ -7,6 +7,8 @@ import (
 	"github.com/paul-ss/pgram-backend/internal/pkg/config"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	"os"
 	"os/signal"
@@ -53,10 +55,7 @@ func NewServer() *Server {
 }
 
 func addRoutes(r *gin.Engine) {
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(200, "pong")
-	})
-
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	postDelivery.Register(r)
 }
 

@@ -1,0 +1,127 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is my study project - simple blog mvp.",
+        "title": "Pgram backend API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/post": {
+            "post": {
+                "description": "create new post",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "create new post",
+                "parameters": [
+                    {
+                        "description": "CreatePost post",
+                        "name": "postCreate",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.PostCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Post"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Error": {
+            "type": "object",
+            "properties": {
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Post": {
+            "type": "object",
+            "properties": {
+                "Content": {
+                    "type": "string"
+                },
+                "Created": {
+                    "type": "string"
+                },
+                "GroupId": {
+                    "type": "integer"
+                },
+                "Id": {
+                    "type": "integer"
+                },
+                "Image": {
+                    "type": "string"
+                },
+                "UserId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.PostCreate": {
+            "type": "object",
+            "required": [
+                "GroupId"
+            ],
+            "properties": {
+                "Content": {
+                    "type": "string"
+                },
+                "Created": {
+                    "type": "string"
+                },
+                "GroupId": {
+                    "type": "integer"
+                },
+                "UserId": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

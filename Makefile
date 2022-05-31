@@ -1,6 +1,6 @@
 # note: call scripts from /scripts
 
-.PHONY: dbup test dbclean
+.PHONY: dbup test dbstop swag
 
 dbup:
 	docker run   -d --rm -p 5432:5432 --name postgres-local \
@@ -10,8 +10,8 @@ dbup:
 	postgres \
 	&& docker ps
 
-dbclean:
-	docker stop postgres-local; sudo rm -r pgdata/
+dbstop:
+	docker stop postgres-local
 
 test:
 	docker run -d --rm -p 5430:5432 --name postgres-test \
@@ -26,3 +26,9 @@ fill:
     -e POSTGRES_USER=tst -e POSTGRES_PASSWORD=123 -e POSTGRES_DB=tst \
 	-v "$(shell pwd)/configs/sql/initdb":/docker-entrypoint-initdb.d \
     postgres
+
+swag:
+	swag init -o docs/swagger -d cmd/api,internal/app/domain,internal/app/post/delivery
+
+run:
+	go run ./cmd/api/main.go;

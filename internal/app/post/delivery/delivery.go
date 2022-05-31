@@ -14,8 +14,8 @@ func Register(r domain.GinRouter) {
 		uc: usecase.NewUsecase(),
 	}
 
-	r.POST("/post", d.Create)
-	r.POST("/post/get", d.Get)
+	r.POST("/post", d.CreatePost)
+	r.POST("/post/get", d.GetFeed)
 }
 
 type Delivery struct {
@@ -23,11 +23,23 @@ type Delivery struct {
 }
 
 type CreateData struct {
-	Data  *domain.PostStoreUC   `form:"data" binding:"required"`
+	Data  *domain.PostCreate    `form:"data" binding:"required"`
 	Image *multipart.FileHeader `form:"image" binding:"required"`
 }
 
-func (d *Delivery) Create(c *gin.Context) {
+// CreatePost
+// @Summary      create new post
+// @Description  create new post
+// @Tags         post
+// @Accept       json
+// @Produce      json
+// @Param        postCreate  body  domain.PostCreate  true  "CreatePost post"
+// @Success      200  {object}  domain.Post
+// @Failure      400  {object}  domain.ErrorBase
+// @Failure      404  {object}  domain.ErrorBase
+// @Failure      500  {object}  domain.ErrorBase
+// @Router       /post [post]
+func (d *Delivery) CreatePost(c *gin.Context) {
 	var form CreateData
 
 	if err := c.ShouldBind(&form); err != nil {
@@ -35,7 +47,7 @@ func (d *Delivery) Create(c *gin.Context) {
 		return
 	}
 
-	post, err := d.uc.Store(c.Request.Context(), form.Data, form.Image)
+	post, err := d.uc.Create(c.Request.Context(), form.Data, form.Image)
 	if err != nil {
 		// TODO handle error
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -45,15 +57,15 @@ func (d *Delivery) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, post)
 }
 
-func (d *Delivery) Get(c *gin.Context) {
-	var req domain.PostGetUC
+func (d *Delivery) GetFeed(c *gin.Context) {
+	var req domain.FeedGet
 
 	if err := c.BindJSON(&req); err != nil {
 		log.Error(err.Error())
 		return
 	}
 
-	posts, err := d.uc.Get(c.Request.Context(), &req)
+	posts, err := d.uc.GetFeed(c.Request.Context(), &req)
 	if err != nil {
 		// TODO handle error
 		log.Error(err.Error())

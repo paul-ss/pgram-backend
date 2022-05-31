@@ -17,7 +17,7 @@ type Repository struct {
 	db postgres.PgxConn
 }
 
-func (r *Repository) Store(ctx context.Context, p *domain.PostStoreR) (*domain.Post, error) {
+func (r *Repository) Create(ctx context.Context, p *domain.PostStoreR) (*domain.Post, error) {
 	var res domain.Post
 	err := r.db.QueryRow(ctx,
 		`insert into posts (user_id, group_id, content, created, image)
@@ -29,7 +29,7 @@ func (r *Repository) Store(ctx context.Context, p *domain.PostStoreR) (*domain.P
 	return &res, err
 }
 
-func (r *Repository) GetSortCreated(ctx context.Context, req *domain.PostGetR) ([]domain.Post, error) {
+func (r *Repository) GetFeedCreated(ctx context.Context, req *domain.FeedGetRepo) ([]domain.Post, error) {
 	desc := ""
 	if req.Desc {
 		desc = "desc "

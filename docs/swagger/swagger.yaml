@@ -1,0 +1,84 @@
+basePath: /api/v1
+definitions:
+  domain.Error:
+    properties:
+      msg:
+        type: string
+    type: object
+  domain.Post:
+    properties:
+      Content:
+        type: string
+      Created:
+        type: string
+      GroupId:
+        type: integer
+      Id:
+        type: integer
+      Image:
+        type: string
+      UserId:
+        type: integer
+    type: object
+  domain.PostCreate:
+    properties:
+      Content:
+        type: string
+      Created:
+        type: string
+      GroupId:
+        type: integer
+      UserId:
+        type: integer
+    required:
+    - GroupId
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is my study project - simple blog mvp.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Pgram backend API
+  version: "1.0"
+paths:
+  /post:
+    post:
+      consumes:
+      - application/json
+      description: create new post
+      parameters:
+      - description: CreatePost post
+        in: body
+        name: postCreate
+        required: true
+        schema:
+          $ref: '#/definitions/domain.PostCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domain.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Error'
+      summary: create new post
+      tags:
+      - post
+swagger: "2.0"

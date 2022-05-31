@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/paul-ss/pgram-backend/docs/swagger" // TODO change path?
 	"github.com/paul-ss/pgram-backend/internal/app/server"
 	postgres "github.com/paul-ss/pgram-backend/internal/pkg/database"
 	"github.com/paul-ss/pgram-backend/internal/pkg/logger"
@@ -30,6 +31,20 @@ func initGlobals(initFunctions ...func() func()) (td func(), err error) {
 	return
 }
 
+// @title           Pgram backend API
+// @version         1.0
+// @description     This is my study project - simple blog mvp.
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+// @BasePath  /api/v1
 func main() {
 	defer func() {
 		if err := recover(); err != nil {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/paul-ss/pgram-backend/internal/app/domain"
 	single_transaction "github.com/paul-ss/pgram-backend/internal/pkg/database/single-transaction"
+	"github.com/paul-ss/pgram-backend/internal/pkg/pointers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"os"
@@ -38,10 +39,10 @@ func TestStore(t *testing.T) {
 	repo := &Repository{conn}
 	req := &domain.PostStoreR{
 		UserId:  1,
-		GroupId: 2,
-		Content: "content",
+		GroupId: pointers.New(2),
+		Content: pointers.New("content"),
 		Created: time.Now().Truncate(time.Microsecond),
-		Image:   "image",
+		Image:   pointers.New("image"),
 	}
 
 	var postId int64
@@ -57,7 +58,7 @@ func TestStore(t *testing.T) {
 		Image:   req.Image,
 	}
 
-	res, err := repo.Store(context.Background(), req)
+	res, err := repo.Create(context.Background(), req)
 	require.Nil(t, err)
 
 	assert.Equal(t, *expected, *res)
